@@ -4,30 +4,28 @@ import hr.bp.aoc.BaseDay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DistressSignal extends BaseDay {
 
-    String rowParser;
+    private String rowParser;
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
         Integer pairsSum = 0;
-        Object left;
-        Object right;
-        Boolean compare;
+        List<Object> left;
+        List<Object> right;
 
-        for (int pairID = 0; pairID < puzzleInputRowsList.size() / 3; pairID = pairID + 3) {
+        for (int pairID = 0; pairID <= puzzleInputRowsList.size() / 3; pairID++) {
 
             left = parseRow(puzzleInputRowsList.get(pairID * 3));
 
             right = parseRow(puzzleInputRowsList.get(pairID * 3 + 1));
 
-            compare=compareObjects(left, right);
-
-            if ((compare!=null) && compare) {
-                System.out.println("-----------------------------------------------------");
-                pairsSum = pairsSum + pairID;
+            if (isOrderedOkList(left, right)) {
+                System.out.println("RIGHT ORDER\n");
+                pairsSum = pairsSum + (pairID + 1);
+            } else {
+                System.out.println("NOT RIGHT ORDER\n");
             }
         }
         return String.valueOf(pairsSum);
@@ -38,67 +36,68 @@ public class DistressSignal extends BaseDay {
         return null;
     }
 
-    private Boolean compareObjects(Object left, Object right) {
+    private Boolean isOrderedOkList(List<Object> left, List<Object> right) {
         Boolean result = null;
-        List<Object> numberToList;
+        int i = 0;
 
-        System.out.println("Comparing objects " + left + " and " + right);
+        System.out.println("Comparing lists " + left + " and " + right);
 
-        if ((left instanceof Integer) && (right instanceof Integer)) {
-            result = compareIntegers((Integer) left, (Integer) right);
-        } else {
-            if (left instanceof Integer) {
-                numberToList = new ArrayList<Object>();
-                numberToList.add(left);
-                left = numberToList;
-                result = compareLists((List<Object>) left, (List<Object>) right);
+        while ((left.size() > i) && (right.size() > i) && (result == null)) {
+
+            if ((left.get(i) instanceof Integer) && (right.get(i) instanceof Integer)) {
+
+                result = isOrderedOkInt((Integer) left.get(i), ((Integer) right.get(i)));
+
+            } else {
+
+                convertIntegerToList(left, i);
+                convertIntegerToList(right, i);
+
+                result = isOrderedOkList((List<Object>) left.get(i), (List<Object>) right.get(i));
             }
-            if (right instanceof Integer) {
-                numberToList = new ArrayList<Object>();
-                numberToList.add(right);
-                right=numberToList;
-                result = compareLists((List<Object>) left, (List<Object>) right);
-            }
-            if ((!(left instanceof Integer)) && (!(right instanceof Integer))) {
-                result = compareLists((List) left, (List) right);
-            }
+            i++;
         }
-        return result;
-    }
 
-    private Boolean compareLists(List<Object> left, List<Object> right) {
-        Boolean result = null;
-        Integer unDetermined=0;
-
-        System.out.println("Comparing lists " + left+ " and " + right);
-
-        while ((left.size() > unDetermined) && (right.size() > unDetermined) && (result == null)) {
-            result = compareObjects(left.get(unDetermined), right.get(unDetermined));
-            unDetermined++;
-        }
         if (result == null) {
-            if (left.size() == 0 && right.size() > 0) {
-                result = true;
-            }
-            if (left.size() > 0 && right.size() == 0) {
-                result = false;
-            }
+            result = isLeftShorter(left, right);
         }
+
         return result;
     }
 
-    private Boolean compareIntegers(Integer left, Integer right) {
-        Boolean result = null;
+    private static void convertIntegerToList(List<Object> container, int index) {
+        List<Object> numberAsList;
+
+        if (container.get(index) instanceof Integer) {
+            numberAsList = new ArrayList<>();
+            numberAsList.add(container.get(index));
+            container.set(index, numberAsList);
+        }
+    }
+
+    private Boolean isLeftShorter(List<Object> left, List<Object> right) {
+
+        if (left.size() < right.size()) {
+            return true;
+        }
+        if (left.size() > right.size()) {
+            return false;
+        }
+        return null;
+    }
+
+
+    private Boolean isOrderedOkInt(Integer left, Integer right) {
 
         System.out.println("Comparing integers " + left + " and " + right);
 
         if (left > right) {
-            result = false;
+            return false;
         }
         if (left < right) {
-            result = true;
+            return true;
         }
-        return result;
+        return null;
     }
 
     private List<Object> parseRow(String row) {
@@ -107,35 +106,39 @@ public class DistressSignal extends BaseDay {
     }
 
     private List<Object> parseSubList() {
-        List<Object> currentDepth = new ArrayList<Object>();
-        Character nextCharacter;
+        List<Object> subList = new ArrayList<>();
+        char nextChar;
 
         while (rowParser.length() > 0) {
 
-            nextCharacter = rowParser.charAt(0);
+            nextChar = rowParser.charAt(0);
 
-            if (Character.isDigit(nextCharacter)) {
-                if (Character.isDigit(rowParser.charAt(1))) {
-                    currentDepth.add(Integer.parseInt(rowParser.substring(0, 2)));
-                    rowParser = rowParser.substring(1);
-                } else {
-                    currentDepth.add(Integer.parseInt(nextCharacter + ""));
-                }
+            if (Character.isDigit(nextChar)) {
+                parseNumber(subList, nextChar);
             }
 
             rowParser = rowParser.substring(1);
 
-            if (nextCharacter == '[') {
-                currentDepth.add(parseSubList());
+            if (nextChar == '[') {
+                subList.add(parseSubList());
             }
 
-            if (nextCharacter == ']') {
+            if (nextChar == ']') {
                 break;
             }
         }
 
-        return currentDepth;
+        return subList;
     }
 
+    private void parseNumber(List<Object> list, char number) {
+        if (Character.isDigit(rowParser.charAt(1))) {
 
+            list.add(Integer.parseInt(rowParser.substring(0, 2)));
+            rowParser = rowParser.substring(1);
+
+        } else {
+            list.add(Integer.parseInt(number + ""));
+        }
+    }
 }
