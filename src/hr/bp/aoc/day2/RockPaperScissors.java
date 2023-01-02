@@ -2,145 +2,134 @@ package hr.bp.aoc.day2;
 
 import hr.bp.aoc.BaseDay;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author Mario Cvjetojevic
  */
 public class RockPaperScissors extends BaseDay {
 
-    private static Integer score=0;
+    private int score = 0;
 
-    protected static void Day2_RockPaperScissors () {
+    private enum Result {
+        WIN, LOSE, DRAW
+    }
+    private enum Hand {
+        ROCK, PAPER, SCISSORS
     }
 
+    private static final Map<Character,Hand> charHandMap = createCharHandMap();
+    private static final Map<Character,Result> charResultMap = createCharResultMap();
+
+    private static Map<Character, Hand> createCharHandMap() {
+        Map<Character, Hand> map = new HashMap<>();
+        map.put('A', Hand.ROCK);
+        map.put('B', Hand.PAPER);
+        map.put('C', Hand.SCISSORS);
+        map.put('X', Hand.ROCK);
+        map.put('Y', Hand.PAPER);
+        map.put('Z', Hand.SCISSORS);
+        return Collections.unmodifiableMap(map);
+    }
+    private static Map<Character, Result> createCharResultMap() {
+        Map<Character, Result> map = new HashMap<>();
+        map.put('X', Result.LOSE);
+        map.put('Y', Result.DRAW);
+        map.put('Z', Result.WIN);
+        return Collections.unmodifiableMap(map);
+    }
+
+
+
     @Override
-    protected String partOne(List<String> listOfRounds){
+    protected String partOne(List<String> listOfRounds) {
 
         for (String roundString : listOfRounds) {
-            matchScorePartOne(roundString.charAt(0),roundString.charAt(2));
+            matchScorePartOne(charHandMap.get(roundString.charAt(0)), charHandMap.get(roundString.charAt(2)));
         }
-        System.out.print(score);
         return String.valueOf(score);
     }
 
     @Override
-    protected String partTwo(List<String> listOfRounds){
+    protected String partTwo(List<String> listOfRounds) {
 
         for (String roundString : listOfRounds) {
-            matchScorePartTwo(roundString.charAt(0),roundString.charAt(2));
+            matchScorePartTwo(charHandMap.get(roundString.charAt(0)), charResultMap.get(roundString.charAt(2)));
         }
-        System.out.print(score);
+
         return String.valueOf(score);
     }
 
+    private void matchScorePartTwo(Hand left, Result right) {
 
+        addResultScore(right);
 
-
-    private static void matchScorePartTwo(Character leftChar, Character rightChar){
-        switch (rightChar){
-            case 'X':
-                addResultScore("LOSE");
-                switch (leftChar){
-                    case 'A':
-                        score=score+3;
-                        break;
-                    case 'B':
-                        score=score+1;
-                        break;
-                    case 'C':
-                        score=score+2;
-                        break;
+        // add scores for Hand
+        switch (right) {
+            case LOSE:
+                switch (left) {
+                    case ROCK     -> score = score + 3;
+                    case PAPER    -> score = score + 1;
+                    case SCISSORS -> score = score + 2;
                 }
                 break;
-            case 'Y':
-                addResultScore("DRAW");
-                switch (leftChar){
-                    case 'A':
-                        score=score+1;
-                        break;
-                    case 'B':
-                        score=score+2;
-                        break;
-                    case 'C':
-                        score=score+3;
-                        break;
+            case DRAW:
+                switch (left) {
+                    case ROCK     -> score = score + 1;
+                    case PAPER    -> score = score + 2;
+                    case SCISSORS -> score = score + 3;
                 }
                 break;
-            case 'Z':
-                addResultScore("WIN");
-                switch (leftChar){
-                    case 'A':
-                        score=score+2;
-                        break;
-                    case 'B':
-                        score=score+3;
-                        break;
-                    case 'C':
-                        score=score+1;
-                        break;
+            case WIN:
+                switch (left) {
+                    case ROCK     -> score = score + 2;
+                    case PAPER    -> score = score + 3;
+                    case SCISSORS -> score = score + 1;
                 }
                 break;
         }
     }
 
-    private static void matchScorePartOne(Character leftChar, Character rightChar){
-        switch (rightChar){
-            case 'X':
-                score=score+1;
-                switch (leftChar){
-                    case 'A':
-                        addResultScore("DRAW");
-                        break;
-                    case 'B':
-                        addResultScore("LOSE");
-                        break;
-                    case 'C':
-                        addResultScore("WIN");
-                        break;
+    private void matchScorePartOne(Hand left, Hand right) {
+        switch (right) {
+
+            case ROCK->{
+                score = score + 1;
+                switch (left) {
+                    case ROCK     -> addResultScore(Result.DRAW);
+                    case PAPER    -> addResultScore(Result.LOSE);
+                    case SCISSORS -> addResultScore(Result.WIN);
                 }
-                break;
-            case 'Y':
-                score=score+2;
-                switch (leftChar){
-                    case 'A':
-                        addResultScore("WIN");
-                        break;
-                    case 'B':
-                        addResultScore("DRAW");
-                        break;
-                    case 'C':
-                        addResultScore("LOSE");
-                        break;
+            }
+
+            case PAPER -> {
+                score = score + 2;
+                switch (left) {
+                    case ROCK     -> addResultScore(Result.WIN);
+                    case PAPER    -> addResultScore(Result.DRAW);
+                    case SCISSORS -> addResultScore(Result.LOSE);
                 }
-                break;
-            case 'Z':
-                score=score+3;
-                switch (leftChar){
-                    case 'A':
-                        addResultScore("LOSE");
-                        break;
-                    case 'B':
-                        addResultScore("WIN");
-                        break;
-                    case 'C':
-                        addResultScore("DRAW");
-                        break;
+            }
+
+            case SCISSORS -> {
+                score = score + 3;
+                switch (left) {
+                    case ROCK     -> addResultScore(Result.LOSE);
+                    case PAPER    -> addResultScore(Result.WIN);
+                    case SCISSORS -> addResultScore(Result.DRAW);
                 }
-                break;
+            }
         }
     }
 
-    private static void addResultScore(String result){
-        switch (result){
-            case "WIN":
-                score=score+6;
-                break;
-            case "LOSE":
-                score=score+0;
-                break;
-            case "DRAW":
-                score=score+3;
-                break;
+    private void addResultScore(Result result) {
+        switch (result) {
+            case WIN  -> score = score + 6;
+            case LOSE -> score = score + 0;
+            case DRAW -> score = score + 3;
         }
     }
 }
