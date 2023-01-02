@@ -1,9 +1,6 @@
 package hr.bp.aoc.day1;
 
 import hr.bp.aoc.BaseDay;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,75 +8,59 @@ import java.util.List;
  */
 public class CalorieCounting extends BaseDay {
 
-    private String solution;
+    @Override
+    protected String partOne(List<String> inputRows) {
 
-    protected static void Day1_CalorieCounting() {
+        int[] top3 = getTop3Calories(inputRows);
+
+        return String.valueOf(top3[0]);
     }
 
     @Override
-    protected String partOne(List<String> listOfCalories){
+    protected String partTwo(List<String> inputRows) {
 
-        List<List<Integer>> listOfElfs= new ArrayList<>();
-        ArrayList<Integer> currentElf = new ArrayList<Integer>();
+        int[] top3 = getTop3Calories(inputRows);
 
-        for (int i=0;i<listOfCalories.size();i++) {
-            if (listOfCalories.get(i) == "") {
-                listOfElfs.add(currentElf);
-                currentElf = new ArrayList<Integer>();
-            } else currentElf.add(Integer.parseInt(listOfCalories.get(i) ) );
-        }
+        return String.valueOf(top3[0] + top3[1] + top3[2]);
 
-        int highestCalories=0, currentElfCalories;
-
-        for (List<Integer> elf : listOfElfs) {
-            currentElfCalories=0;
-            //System.out.println("Sljedeci:\n");
-            for (Integer mealCalories : elf){
-                //System.out.println(mealCalories);
-                currentElfCalories=currentElfCalories+mealCalories;
-
-            }
-            if (currentElfCalories>highestCalories) highestCalories=currentElfCalories;
-        }
-        return String.valueOf(highestCalories);
     }
 
-    @Override
-    protected String partTwo(List<String> listOfCalories){
+    private int[] getTop3Calories(List<String> inputRows) {
+        int[] top3cal = {0, 0, 0};  //from the highest to third-highest
+        int currentCal = 0;
 
-        List<List<Integer>> listOfElfs= new ArrayList<>();
-        ArrayList<Integer> currentElf = new ArrayList<Integer>();
+        for (String row : inputRows) {
+            if (row.equals("")) {
 
-        for (int i=0;i<listOfCalories.size();i++) {
-            if (listOfCalories.get(i) == "") {
-                listOfElfs.add(currentElf);
-                currentElf = new ArrayList<Integer>();
-            } else currentElf.add(Integer.parseInt(listOfCalories.get(i) ) );
-        }
+                updateTop3Calories(top3cal, currentCal);
+                currentCal = 0;
 
-        int firstCalories=0, secondCalories=0, thirdCalories=0,currentElfCalories;
-
-        for (List<Integer> elf : listOfElfs) {
-            currentElfCalories=0;
-            //System.out.println("Sljedeci:\n");
-            for (Integer mealCalories : elf){
-                //System.out.println(mealCalories);
-                currentElfCalories=currentElfCalories+mealCalories;
-
-            }
-            if (currentElfCalories>firstCalories){
-                thirdCalories=secondCalories;
-                secondCalories=firstCalories;
-                firstCalories=currentElfCalories;
+            } else {
+                currentCal = currentCal + Integer.parseInt(row);
             }
         }
-        /*System.out.println(thirdCalories);
-        System.out.println(secondCalories);
-        System.out.println(firstCalories);
-        System.out.println(firstCalories+secondCalories+thirdCalories);*/
+        return top3cal;
+    }
 
-        return String.valueOf(firstCalories+secondCalories+thirdCalories);
+    private void updateTop3Calories(int[] top3, int newCal) {
+        int helper;
 
+        if (newCal > top3[2]) {
+            top3[2] = newCal;
+
+            if (top3[2] > top3[1]) {
+
+                helper = top3[2] ;
+                top3[2] = top3[1] ;
+                top3[1]  = helper;
+
+                if (top3[1] > top3[0]) {
+
+                    top3[1] = top3[0] ;
+                    top3[0]  = helper;
+                }
+            }
+        }
     }
 }
 
