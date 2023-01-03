@@ -2,6 +2,9 @@ package hr.bp.aoc;
 
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +30,7 @@ public class DayExecuter {
 
     private BaseDay dayInstance;
     private String filePathExtension;
-    private String filePath = "/home/user/IdeaProjects/AdventOfCode/Resources/Inputs/";
+    private String inputHomeFolderPath = "inputs";
 
     public void DayExecuter(){
     }
@@ -147,9 +150,13 @@ public class DayExecuter {
         List<String> puzzleInputRowsList = new ArrayList<String>();
 
         try {
-            File myObj = new File(filePath+filePathExtension);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
+			Path rootDirectoryPath = getRootDirectory();
+
+			Path dayInputPath = rootDirectoryPath.resolve(filePathExtension);
+
+            Scanner myReader = new Scanner(dayInputPath.toFile());
+
+			while (myReader.hasNextLine()) {
                 puzzleInputRowsList.add(myReader.nextLine());
             }
             myReader.close();
@@ -165,6 +172,22 @@ public class DayExecuter {
     private List<String> parseCustomPuzzleInput(String customPuzzleInput){
         return new ArrayList<String>(Arrays.asList(customPuzzleInput.split("\n")));
     }
+
+	private Path getRootDirectory() {
+		URL hrPackageDirectory = DayExecuter.class.getResource("app");
+
+		System.out.printf("HR in location %s\n", hrPackageDirectory.getPath());
+
+		Path path = Paths.get(hrPackageDirectory.getPath());
+
+		while (!path.endsWith("hr")) {
+			path = path.getParent();
+		}
+
+		path = path.getParent();
+
+		return path.resolve(inputHomeFolderPath);
+	}
 
 
 
