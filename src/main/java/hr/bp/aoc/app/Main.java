@@ -1,3 +1,5 @@
+package hr.bp.aoc.app;
+
 import hr.bp.aoc.DayExecuter;
 
 public class Main {
