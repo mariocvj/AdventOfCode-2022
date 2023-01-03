@@ -2,8 +2,7 @@ package hr.bp.aoc.day13;
 
 import hr.bp.aoc.BaseDay;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DistressSignal extends BaseDay {
 
@@ -12,8 +11,8 @@ public class DistressSignal extends BaseDay {
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
         Integer pairsSum = 0;
-        List<Object> left;
-        List<Object> right;
+        SignalPacket left;
+        SignalPacket right;
 
         for (int pairID = 0; pairID <= puzzleInputRowsList.size() / 3; pairID++) {
 
@@ -21,11 +20,8 @@ public class DistressSignal extends BaseDay {
 
             right = parseRow(puzzleInputRowsList.get(pairID * 3 + 1));
 
-            if (isOrderedOkList(left, right)) {
-                System.out.println("RIGHT ORDER\n");
+            if (left.compareTo(right) < 0) {
                 pairsSum = pairsSum + (pairID + 1);
-            } else {
-                System.out.println("NOT RIGHT ORDER\n");
             }
         }
         return String.valueOf(pairsSum);
@@ -33,79 +29,36 @@ public class DistressSignal extends BaseDay {
 
     @Override
     protected String partTwo(List<String> puzzleInputRowsList) {
-        return null;
-    }
 
-    private Boolean isOrderedOkList(List<Object> left, List<Object> right) {
-        Boolean result = null;
-        int i = 0;
+        SortedSet<SignalPacket> packets = new TreeSet<>();
 
-        System.out.println("Comparing lists " + left + " and " + right);
-
-        while ((left.size() > i) && (right.size() > i) && (result == null)) {
-
-            if ((left.get(i) instanceof Integer) && (right.get(i) instanceof Integer)) {
-
-                result = isOrderedOkInt((Integer) left.get(i), ((Integer) right.get(i)));
-
-            } else {
-
-                convertIntegerToList(left, i);
-                convertIntegerToList(right, i);
-
-                result = isOrderedOkList((List<Object>) left.get(i), (List<Object>) right.get(i));
+        for (String row : puzzleInputRowsList) {
+            if (!(row.equals(""))) {
+                packets.add(parseRow(row));
             }
-            i++;
         }
-
-        if (result == null) {
-            result = isLeftShorter(left, right);
-        }
-
-        return result;
+        return String.valueOf(getDecoderKey(packets));
     }
 
-    private static void convertIntegerToList(List<Object> container, int index) {
-        List<Object> numberAsList;
+    private int getDecoderKey(SortedSet<SignalPacket> packets) {
+        List<SignalPacket> list;
+        SignalPacket divider1 = new SignalPacket(2);
+        SignalPacket divider2 = new SignalPacket(6);
 
-        if (container.get(index) instanceof Integer) {
-            numberAsList = new ArrayList<>();
-            numberAsList.add(container.get(index));
-            container.set(index, numberAsList);
-        }
+        packets.add(divider1);
+        packets.add(divider2);
+
+        list = new ArrayList<>(packets);
+
+        return (list.indexOf(divider1) + 1) * (list.indexOf(divider2) + 1);
     }
 
-    private Boolean isLeftShorter(List<Object> left, List<Object> right) {
-
-        if (left.size() < right.size()) {
-            return true;
-        }
-        if (left.size() > right.size()) {
-            return false;
-        }
-        return null;
-    }
-
-
-    private Boolean isOrderedOkInt(Integer left, Integer right) {
-
-        System.out.println("Comparing integers " + left + " and " + right);
-
-        if (left > right) {
-            return false;
-        }
-        if (left < right) {
-            return true;
-        }
-        return null;
-    }
-
-    private List<Object> parseRow(String row) {
+    private SignalPacket parseRow(String row) {
         rowParser = row.substring(1);
-        return parseSubList();
+        return parseSignalPacket();
     }
 
-    private List<Object> parseSubList() {
+    private SignalPacket parseSignalPacket() {
         List<Object> subList = new ArrayList<>();
         char nextChar;
 
@@ -120,7 +73,7 @@ public class DistressSignal extends BaseDay {
             rowParser = rowParser.substring(1);
 
             if (nextChar == '[') {
-                subList.add(parseSubList());
+                subList.add(parseSignalPacket());
             }
 
             if (nextChar == ']') {
@@ -128,7 +81,7 @@ public class DistressSignal extends BaseDay {
             }
         }
 
-        return subList;
+        return new SignalPacket(subList);
     }
 
     private void parseNumber(List<Object> list, char number) {
