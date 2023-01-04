@@ -5,19 +5,24 @@ import hr.bp.aoc.BaseDay;
 import java.util.*;
 
 public class ProboscideaVolcanium extends BaseDay {
+    public ProboscideaVolcanium(int day) {
+        super(day);
+    }
 
-    private static final int ERUPTION_TIME = 30;
-    private List<Node> nodeList = new ArrayList<>();
+    private final List<FlowableValve> nodeList = new ArrayList<>();
 
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
 
-        Set<Valve> opened = new HashSet<>();
-        List<Valve> valveList = initialiseValves(puzzleInputRowsList);
+        Set<PressureValve> opened = new HashSet<>();
+        List<PressureValve> valveList = initialiseValves(puzzleInputRowsList);
 
-
-        return String.valueOf(getMaxPressure(valveList.get(0), opened, 0));
+        for (FlowableValve node:nodeList){
+            node.calculateShortestPaths();
+        }
+        System.out.println("dfs");
+        return String.valueOf(null);
     }
 
     @Override
@@ -26,9 +31,8 @@ public class ProboscideaVolcanium extends BaseDay {
     }
 
 
-    //IGNORING POTENTIAL OF SKIPING A LOW FLOW VALVE
-
-
+/*
+    //old too slow algorithm
     private int getMaxPressure(Valve location, Set<Valve> opened, int minutes) {
         int thisPressure = 0;
         int highestPressure = 0;
@@ -57,12 +61,12 @@ public class ProboscideaVolcanium extends BaseDay {
             return highestPressure + thisPressure;
         }
         return thisPressure;
-    }
+    }*/
 
 
-    private List<Valve> initialiseValves(List<String> puzzleInputRowsList) {
-        List<Valve> valveList;
-        List<Valve> tunnelList;
+    private List<PressureValve> initialiseValves(List<String> puzzleInputRowsList) {
+        List<PressureValve> valveList;
+        List<PressureValve> tunnelList;
         valveList = new ArrayList<>();
 
         for (String inputRow : puzzleInputRowsList) {
@@ -71,11 +75,14 @@ public class ProboscideaVolcanium extends BaseDay {
 
         setTunnels(puzzleInputRowsList, valveList);
 
+        valveList.get(0).setAllValves(new HashSet<>(valveList));
+        valveList.get(0).setAllNodes(new HashSet<>(nodeList));
+
         return valveList;
     }
 
-    private void setTunnels(List<String> puzzleInputRowsList, List<Valve> valveList) {
-        List<Valve> tunnelList;
+    private void setTunnels(List<String> puzzleInputRowsList, List<PressureValve> valveList) {
+        List<PressureValve> tunnelList;
         for (int i = 0; i < puzzleInputRowsList.size(); i++) {
 
             tunnelList = new ArrayList<>();
@@ -88,17 +95,17 @@ public class ProboscideaVolcanium extends BaseDay {
         }
     }
 
-    private Valve asValve(String row) {
+    private PressureValve asValve(String row) {
 
-        Node node;
+        FlowableValve node;
         String[] nameAndFlow;
 
         nameAndFlow = row.substring(6, 25).replaceAll("[a-z\s;]", "").split("=");
 
         if (nameAndFlow[1].equals("0")) {
-            return new Valve(nameAndFlow[0]);
+            return new PressureValve(nameAndFlow[0]);
         } else {
-            node = new Node(nameAndFlow[0], Integer.parseInt(nameAndFlow[1]));
+            node = new FlowableValve(nameAndFlow[0], Integer.parseInt(nameAndFlow[1]));
             nodeList.add(node);
             return node;
         }
@@ -113,8 +120,8 @@ public class ProboscideaVolcanium extends BaseDay {
         return tunnels;
     }
 
-    private Valve asValve(String tunnel, List<Valve> valveList) {
-        for (Valve valve : valveList) {
+    private PressureValve asValve(String tunnel, List<PressureValve> valveList) {
+        for (PressureValve valve : valveList) {
             if (valve.name.equals(tunnel)) {
                 return valve;
             }

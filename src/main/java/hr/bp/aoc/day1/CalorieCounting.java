@@ -1,12 +1,16 @@
 package hr.bp.aoc.day1;
 
 import hr.bp.aoc.BaseDay;
+
 import java.util.List;
 
 /**
  * @author Mario Cvjetojevic
  */
 public class CalorieCounting extends BaseDay {
+    public CalorieCounting(int day) {
+        super(day);
+    }
 
     @Override
     protected String partOne(List<String> inputRows) {
@@ -50,14 +54,14 @@ public class CalorieCounting extends BaseDay {
 
             if (top3[2] > top3[1]) {
 
-                helper = top3[2] ;
-                top3[2] = top3[1] ;
-                top3[1]  = helper;
+                helper = top3[2];
+                top3[2] = top3[1];
+                top3[1] = helper;
 
                 if (top3[1] > top3[0]) {
 
-                    top3[1] = top3[0] ;
-                    top3[0]  = helper;
+                    top3[1] = top3[0];
+                    top3[0] = helper;
                 }
             }
         }

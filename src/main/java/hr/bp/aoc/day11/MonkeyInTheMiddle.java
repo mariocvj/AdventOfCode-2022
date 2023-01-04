@@ -11,10 +11,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MonkeyInTheMiddle extends BaseDay {
+    public MonkeyInTheMiddle(int day) {
+        super(day);
+    }
 
     private List<Monkey> allMonkeys;
     private String puzzlePart;
     private BigInteger sharedMultiplier;
+
 
     private class Monkey {
         List<BigInteger> heldItems;
@@ -44,7 +48,6 @@ public class MonkeyInTheMiddle extends BaseDay {
             while (heldItems.size() > 0) {
                 this.inspectAndThrowNextItem();
             }
-            ;
         }
 
         private BigInteger optimiseBigWorryLevels(BigInteger item) {
@@ -76,30 +79,14 @@ public class MonkeyInTheMiddle extends BaseDay {
             BigInteger newValue = null;
 
             switch (this.monkeyID()) {
-                case 0:
-                    newValue = oldValue.multiply(BigInteger.valueOf(11));
-                    break;
-                case 1:
-                    newValue = oldValue.add(BigInteger.valueOf(4));
-                    break;
-                case 2:
-                    newValue = oldValue.multiply(oldValue);
-                    break;
-                case 3:
-                    newValue = oldValue.add(BigInteger.valueOf(2));
-                    break;
-                case 4:
-                    newValue = oldValue.add(BigInteger.valueOf(3));
-                    break;
-                case 5:
-                    newValue = oldValue.add(BigInteger.valueOf(1));
-                    break;
-                case 6:
-                    newValue = oldValue.add(BigInteger.valueOf(5));
-                    break;
-                case 7:
-                    newValue = oldValue.multiply(BigInteger.valueOf(19));
-                    break;
+                case 0->  newValue = oldValue.multiply(BigInteger.valueOf(11));
+                case 1->  newValue = oldValue.add(BigInteger.valueOf(4));
+                case 2->                    newValue = oldValue.multiply(oldValue);
+                case 3->                    newValue = oldValue.add(BigInteger.valueOf(2));
+                case 4->                    newValue = oldValue.add(BigInteger.valueOf(3));
+                case 5->                    newValue = oldValue.add(BigInteger.valueOf(1));
+                case 6->  newValue = oldValue.add(BigInteger.valueOf(5));
+                case 7->                    newValue = oldValue.multiply(BigInteger.valueOf(19));
             }
             return newValue;
         }
@@ -146,19 +133,19 @@ public class MonkeyInTheMiddle extends BaseDay {
     }
 
     private void initialiseMonkeyData(List<String> puzzleInputRowsList) {
-        Integer divisionTest;
-        Integer trueTarget;
-        Integer falseTarget;
+        int divisionTest;
+        int trueTarget;
+        int falseTarget;
         List<BigInteger> heldItems;
         String heldItemsInput;
 
-        allMonkeys = new ArrayList<Monkey>();
+        allMonkeys = new ArrayList<>();
         sharedMultiplier = BigInteger.valueOf(1);
 
         for (int i = 0; i < puzzleInputRowsList.size(); i = i + 7) {
 
             heldItemsInput = puzzleInputRowsList.get(i + 1).replaceAll("[a-zA-Z: ]", "");
-            heldItems = Arrays.asList(heldItemsInput.split(",")).stream().map(Integer::parseInt).map(BigInteger::valueOf).collect(Collectors.toList());
+            heldItems = Arrays.stream(heldItemsInput.split(",")).map(Integer::parseInt).map(BigInteger::valueOf).collect(Collectors.toList());
 
             divisionTest = Integer.parseInt(puzzleInputRowsList.get(i + 3).replaceAll("[a-zA-Z: ]", ""));
 

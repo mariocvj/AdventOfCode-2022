@@ -10,11 +10,15 @@ import hr.bp.aoc.Point;
 import java.util.List;
 
 public class BeaconExclusionZone extends BaseDay {
+    public BeaconExclusionZone(int day) {
+        super(day);
+    }
 
     private List<SenzorBeaconPair> senzorBeaconPairs;
     private Character[] scanedRow;
     private int scanedRowY;
     private int scanedRowOffset;
+
 
     public class SenzorBeaconPair {
         Point senzor;

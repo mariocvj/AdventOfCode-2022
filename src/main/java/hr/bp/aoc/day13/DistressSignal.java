@@ -5,8 +5,12 @@ import hr.bp.aoc.BaseDay;
 import java.util.*;
 
 public class DistressSignal extends BaseDay {
+    public DistressSignal(int day) {
+        super(day);
+    }
 
     private String rowParser;
+
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {

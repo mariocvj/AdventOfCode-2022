@@ -11,6 +11,9 @@ import java.util.Map;
  * @author Mario Cvjetojevic
  */
 public class RockPaperScissors extends BaseDay {
+    public RockPaperScissors(int day) {
+        super(day);
+    }
 
     private int score = 0;
 

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HillClimbingAlgorithm extends BaseDay {
+    public HillClimbingAlgorithm(int day) {
+        super(day);
+    }
 
     private List<List<GeographicalPoint>> terrainMap;
     private GeographicalPoint startingLocation;
@@ -119,8 +122,7 @@ public class HillClimbingAlgorithm extends BaseDay {
 
         if (!(destination.pathDiscovered)) {
 
-            if ( (elevationPathingRestrictions.equals("partOne") && (((int) destination.elevation) < (2 + (int) current.elevation) ))
-              || (elevationPathingRestrictions.equals("partTwo") && (((int) current.elevation) < (2 + (int) destination.elevation) )) ){
+            if ((elevationPathingRestrictions.equals("partOne") && (((int) destination.elevation) < (2 + (int) current.elevation))) || (elevationPathingRestrictions.equals("partTwo") && (((int) current.elevation) < (2 + (int) destination.elevation)))) {
 
                 destination.pathDiscovered = true;
 

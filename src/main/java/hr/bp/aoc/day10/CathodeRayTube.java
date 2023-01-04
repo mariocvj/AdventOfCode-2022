@@ -7,10 +7,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class CathodeRayTube extends BaseDay {
+    public CathodeRayTube(int day) {
+        super(day);
+    }
+
     Integer currentCycle;
     Integer signalSum;
     Integer xRegister;
     List<Character> printedImage;
+
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {

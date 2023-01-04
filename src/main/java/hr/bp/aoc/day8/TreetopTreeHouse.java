@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class TreetopTreeHouse extends BaseDay {
+    public TreetopTreeHouse(int day) {
+        super(day);
+    }
 
     List<List<ForestTree>> forestMap;
+
 
     private class ForestTree {
         Boolean isVisible;
@@ -83,16 +87,16 @@ public class TreetopTreeHouse extends BaseDay {
 
     private Integer calculateTreeScenicScore(Integer treeX, Integer treeY) {
         ForestTree treeToCalculate = forestMap.get(treeY).get(treeX);
-        Integer lineOfSightLength = 0;
-        Integer scenicScore = 1;
+        int lineOfSightLength = 0;
+        int scenicScore = 1;
         ForestTree currentTree;
 
 
         //CHECK VISIBILITY TOWARDS BOTTOM
         do {
             lineOfSightLength++;
-            currentTree = getForestTree(treeX,treeY + lineOfSightLength);
-            if (Objects.isNull(currentTree)){
+            currentTree = getForestTree(treeX, treeY + lineOfSightLength);
+            if (Objects.isNull(currentTree)) {
                 lineOfSightLength--;
                 break;
             }
@@ -103,8 +107,8 @@ public class TreetopTreeHouse extends BaseDay {
         //CHECK VISIBILITY TOWARDS TOP
         do {
             lineOfSightLength++;
-            currentTree = getForestTree(treeX,treeY - lineOfSightLength);
-            if (Objects.isNull(currentTree)){
+            currentTree = getForestTree(treeX, treeY - lineOfSightLength);
+            if (Objects.isNull(currentTree)) {
                 lineOfSightLength--;
                 break;
             }
@@ -116,8 +120,8 @@ public class TreetopTreeHouse extends BaseDay {
         //CHECK VISIBILITY TOWARDS RIGHT
         do {
             lineOfSightLength++;
-            currentTree = getForestTree(treeX + lineOfSightLength,treeY);
-            if (Objects.isNull(currentTree)){
+            currentTree = getForestTree(treeX + lineOfSightLength, treeY);
+            if (Objects.isNull(currentTree)) {
                 lineOfSightLength--;
                 break;
             }
@@ -129,14 +133,13 @@ public class TreetopTreeHouse extends BaseDay {
         //CHECK VISIBILITY TOWARDS LEFT
         do {
             lineOfSightLength++;
-            currentTree = getForestTree(treeX - lineOfSightLength,treeY);
-            if (Objects.isNull(currentTree)){
+            currentTree = getForestTree(treeX - lineOfSightLength, treeY);
+            if (Objects.isNull(currentTree)) {
                 lineOfSightLength--;
                 break;
             }
         } while (treeToCalculate.height > currentTree.height);
         scenicScore = scenicScore * lineOfSightLength;
-        lineOfSightLength = 0;
 
         return scenicScore;
     }
@@ -155,10 +158,10 @@ public class TreetopTreeHouse extends BaseDay {
     }
 
 
-    private ForestTree getForestTree(Integer treeX, Integer treeY){
-        try{
+    private ForestTree getForestTree(Integer treeX, Integer treeY) {
+        try {
             return forestMap.get(treeY).get(treeX);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             // THIS IS INTENDED PROGRAM BEHAVIOUR
             return null;
         }
@@ -179,15 +182,15 @@ public class TreetopTreeHouse extends BaseDay {
     private void initialiseForestData(List<String> puzzleInputRowsList) {
         ForestTree newTree;
 
-        forestMap = new ArrayList<List<ForestTree>>();
+        forestMap = new ArrayList<>();
 
         for (int y = 0; y < puzzleInputRowsList.size(); y++) {
 
-            forestMap.add(new ArrayList<ForestTree>());
+            forestMap.add(new ArrayList<>());
 
             for (int x = 0; x < puzzleInputRowsList.get(0).length(); x++) {
 
-                newTree = new ForestTree(Integer.parseInt(puzzleInputRowsList.get(y).substring(x,x+1)));
+                newTree = new ForestTree(Integer.parseInt(puzzleInputRowsList.get(y).substring(x, x + 1)));
                 forestMap.get(y).add(newTree);
             }
         }

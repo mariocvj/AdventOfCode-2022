@@ -7,10 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RegolithReservoir extends BaseDay {
+    public RegolithReservoir(int day) {
+        super(day);
+    }
 
     private Character[][] caveMap;
     private Integer highestY;
     private Integer caveSize;
+
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
@@ -37,7 +41,7 @@ public class RegolithReservoir extends BaseDay {
 
     @Override
     protected String partTwo(List<String> puzzleInputRowsList) {
-        Point sandSource = new Point(500,0);
+        Point sandSource = new Point(500, 0);
         Point sandParticle = new Point();
         Integer restingSand = 0;
         caveSize = 1000;
@@ -46,10 +50,10 @@ public class RegolithReservoir extends BaseDay {
         createCaveStructures(puzzleInputRowsList);
         createCaveFloor();
 
-        outerLoop:
         do {
             sandParticle.setLocation(sandSource);
-            while (!(fallToNextPosition(sandParticle))) {}
+            while (!(fallToNextPosition(sandParticle))) {
+            }
             restingSand++;
         } while (!(sandParticle.equals(sandSource)));
 
@@ -58,9 +62,9 @@ public class RegolithReservoir extends BaseDay {
 
     private void createCaveStructures(List<String> puzzleInputRowsList) {
         List<String> rockPathStrings;
-        Integer x;
-        Integer y;
-        Boolean firstLoop;
+        int x;
+        int y;
+        boolean firstLoop;
         Point previousRock = new Point();
         Point nextRock = new Point();
         highestY = 0;
@@ -87,10 +91,10 @@ public class RegolithReservoir extends BaseDay {
         }
     }
 
-    private void createCaveFloor(){
+    private void createCaveFloor() {
         createRockLine(
-                new Point(0,highestY+2),
-                new Point(caveSize-1,highestY+2));
+                new Point(0, highestY + 2),
+                new Point(caveSize - 1, highestY + 2));
     }
 
     private void initialiseEmptyCave(Integer caveSize) {
@@ -105,11 +109,11 @@ public class RegolithReservoir extends BaseDay {
     }
 
     private void createRockLine(Point start, Point end) {
-        Integer currentX;
-        Integer currentY;
-        Integer xChange = (int) Math.signum(end.x - start.x);
-        Integer yChange = (int) Math.signum(end.y - start.y);
-        Integer counter = 0;
+        int currentX;
+        int currentY;
+        int xChange = (int) Math.signum(end.x - start.x);
+        int yChange = (int) Math.signum(end.y - start.y);
+        int counter = 0;
 
         do {
             currentX = start.x + xChange * counter;
@@ -121,7 +125,7 @@ public class RegolithReservoir extends BaseDay {
     }
 
     private Boolean fallToNextPosition(Point sand) {
-        Boolean blocked = false;
+        boolean blocked = false;
 
         if (caveMap[sand.x][sand.y + 1].equals('.')) {
             sand.setLocation(sand.x, sand.y + 1);
@@ -172,7 +176,7 @@ public class RegolithReservoir extends BaseDay {
     }
 
     private boolean hasGapLeft(Point sand) {
-        if(caveMap[sand.x - 1][sand.y + 1].equals('.')) {
+        if (caveMap[sand.x - 1][sand.y + 1].equals('.')) {
             return true;
         }
 

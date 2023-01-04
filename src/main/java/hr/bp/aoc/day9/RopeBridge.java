@@ -5,10 +5,12 @@ import hr.bp.aoc.BaseDay;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RopeBridge extends BaseDay {
+    public RopeBridge(int day) {
+        super(day);
+    }
 
     private HashSet<Point> visitedPositions;
     private List<Point> partTwoRopePosition;
@@ -62,8 +64,8 @@ public class RopeBridge extends BaseDay {
     }
 
     private boolean moveRopeJoint(Point headPosition, Point tailPosition) {
-        Integer changeX;
-        Integer changeY;
+        int changeX;
+        int changeY;
 
         if (headPosition.distance(tailPosition) >= 2) {
 
@@ -78,22 +80,14 @@ public class RopeBridge extends BaseDay {
 
 
     private Point executeOneStep(Character direction, Point headPosition, Point tailPosition) {
-        Integer changeX;
-        Integer changeY;
+        int changeX;
+        int changeY;
 
         switch (direction) {
-            case 'U':
-                headPosition.setLocation(headPosition.x, headPosition.y + 1);
-                break;
-            case 'D':
-                headPosition.setLocation(headPosition.x, headPosition.y - 1);
-                break;
-            case 'L':
-                headPosition.setLocation(headPosition.x - 1, headPosition.y);
-                break;
-            case 'R':
-                headPosition.setLocation(headPosition.x + 1, headPosition.y);
-                break;
+            case 'U' -> headPosition.setLocation(headPosition.x, headPosition.y + 1);
+            case 'D' -> headPosition.setLocation(headPosition.x, headPosition.y - 1);
+            case 'L' -> headPosition.setLocation(headPosition.x - 1, headPosition.y);
+            case 'R' -> headPosition.setLocation(headPosition.x + 1, headPosition.y);
         }
 
         if (headPosition.distance(tailPosition) >= 2) {
@@ -108,10 +102,10 @@ public class RopeBridge extends BaseDay {
     }
 
     private void initialiseData() {
-        visitedPositions = new HashSet<Point>();
+        visitedPositions = new HashSet<>();
         this.partOneTailPosition = new Point(0, 0);
         this.partOneHeadPosition = new Point(0, 0);
-        partTwoRopePosition = new ArrayList<Point>();
+        partTwoRopePosition = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             partTwoRopePosition.add(new Point(0, 0));
         }
