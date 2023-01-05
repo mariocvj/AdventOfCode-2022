@@ -45,7 +45,7 @@ public class Day7Directory extends Day7BaseObject {
     }
 
     @Override
-    protected Double sumOfPartOneDirectories(){
+    protected Double getSumOfPartOneDirectories(){
 
         Double partOneSum = this.getSize();
         if(partOneSum > 100000 ) {
@@ -53,14 +53,14 @@ public class Day7Directory extends Day7BaseObject {
         }
 
         for(Day7BaseObject childInstance : content){
-            partOneSum = partOneSum + childInstance.sumOfPartOneDirectories();
+            partOneSum = partOneSum + childInstance.getSumOfPartOneDirectories();
         }
 
         return partOneSum;
     }
 
     @Override
-    protected Day7Directory bestPartTwoDirectory(Double missingSpace) {
+    protected Day7Directory getBestPartTwoDirectory(Double missingSpace) {
         Day7Directory bestDirectoryOfThis = null;
         Day7Directory bestDirectoryOfChild;
 
@@ -68,7 +68,7 @@ public class Day7Directory extends Day7BaseObject {
             bestDirectoryOfThis = this;
 
             for (Day7BaseObject child : content){
-                bestDirectoryOfChild = child.bestPartTwoDirectory(missingSpace);
+                bestDirectoryOfChild = child.getBestPartTwoDirectory(missingSpace);
 
                 if( ! (bestDirectoryOfChild == null) ){
 

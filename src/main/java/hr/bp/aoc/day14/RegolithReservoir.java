@@ -19,7 +19,7 @@ public class RegolithReservoir extends BaseDay {
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
         Point sandParticle = new Point();
-        Integer restingSand = 0;
+        int restingSand = 0;
         caveSize = 600;
 
         initialiseEmptyCave(caveSize);

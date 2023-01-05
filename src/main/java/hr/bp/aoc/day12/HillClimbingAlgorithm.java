@@ -25,7 +25,7 @@ public class HillClimbingAlgorithm extends BaseDay {
         Point2D coordinates;
 
 
-        public GeographicalPoint(Character elevation, Integer x, Integer y) {
+        public GeographicalPoint(char elevation, int x, int y) {
             this.shortestPath = 9999;
             this.pathDiscovered = false;
             this.elevation = elevation;
@@ -57,7 +57,7 @@ public class HillClimbingAlgorithm extends BaseDay {
     @Override
     protected String partTwo(List<String> puzzleInputRowsList) {
         GeographicalPoint closestLowestElevationPoint = null;
-        Boolean discoveredLowestGround = false;
+        boolean discoveredLowestGround = false;
         List<GeographicalPoint> newlyDiscoveredPoints = new ArrayList<GeographicalPoint>();
 
         initialiseTerrainData(puzzleInputRowsList);
@@ -99,8 +99,8 @@ public class HillClimbingAlgorithm extends BaseDay {
         List<GeographicalPoint> surroundingPoints = new ArrayList<GeographicalPoint>();
         List<GeographicalPoint> newlyDiscoveredPoints = new ArrayList<GeographicalPoint>();
 
-        Integer x = (int) Math.round(centerPoint.coordinates.getX());
-        Integer y = (int) Math.round(centerPoint.coordinates.getY());
+        int x = (int) Math.round(centerPoint.coordinates.getX());
+        int y = (int) Math.round(centerPoint.coordinates.getY());
 
         surroundingPoints.add(terrainMap.get(y).get(Math.min(x + 1, (terrainMap.get(0).size() - 1))));
         surroundingPoints.add(terrainMap.get(Math.min(y + 1, (terrainMap.size() - 1))).get(x));
@@ -118,7 +118,7 @@ public class HillClimbingAlgorithm extends BaseDay {
     }
 
 
-    private Boolean stepFromPointToPoint(GeographicalPoint current, GeographicalPoint destination) {
+    private boolean stepFromPointToPoint(GeographicalPoint current, GeographicalPoint destination) {
 
         if (!(destination.pathDiscovered)) {
 
@@ -139,7 +139,7 @@ public class HillClimbingAlgorithm extends BaseDay {
     private void initialiseTerrainData(List<String> puzzleInputRowsList) {
 
         GeographicalPoint pointToAdd;
-        Character pointLetter;
+        char pointLetter;
         terrainMap = new ArrayList<>();
 
         for (int y = 0; y < puzzleInputRowsList.size(); y++) {
@@ -154,11 +154,11 @@ public class HillClimbingAlgorithm extends BaseDay {
 
                 terrainMap.get(y).add(pointToAdd);
 
-                if (pointLetter.equals('S')) {
+                if (pointLetter == 'S') {
                     startingLocation = pointToAdd;
                     startingLocation.elevation = 'a';
                 }
-                if (pointLetter.equals('E')) {
+                if (pointLetter == 'E') {
                     endingLocation = pointToAdd;
                     endingLocation.elevation = 'z';
                 }

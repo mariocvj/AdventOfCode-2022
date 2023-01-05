@@ -18,7 +18,7 @@ public class NoSpaceLeftOnDevice extends BaseDay {
 
         Day7Root rootInstance = directoryTreeBuilder(puzzleInputRowsList);
 
-        return String.valueOf(rootInstance.sumOfPartOneDirectories());
+        return String.valueOf(rootInstance.getSumOfPartOneDirectories());
 
     }
 
@@ -29,7 +29,7 @@ public class NoSpaceLeftOnDevice extends BaseDay {
 
         Double missingSpace = 30000000 - (70000000 - rootInstance.getSize());
 
-        Day7Directory bestDirectoryToDelete = rootInstance.bestPartTwoDirectory(missingSpace);
+        Day7Directory bestDirectoryToDelete = rootInstance.getBestPartTwoDirectory(missingSpace);
 
         return String.valueOf(bestDirectoryToDelete.getSize().intValue());
     }

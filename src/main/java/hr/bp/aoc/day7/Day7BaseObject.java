@@ -19,7 +19,7 @@ public abstract class Day7BaseObject {
 
     protected abstract Double getSize();
 
-    protected abstract Double sumOfPartOneDirectories();
+    protected abstract Double getSumOfPartOneDirectories();
 
-    protected abstract Day7Directory bestPartTwoDirectory(Double missingSpace);
+    protected abstract Day7Directory getBestPartTwoDirectory(Double missingSpace);
 }

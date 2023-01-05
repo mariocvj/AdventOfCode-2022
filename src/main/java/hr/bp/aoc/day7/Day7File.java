@@ -15,12 +15,12 @@ public class Day7File extends Day7BaseObject {
     }
 
     @Override
-    protected Double sumOfPartOneDirectories() {
+    protected Double getSumOfPartOneDirectories() {
         return Double.valueOf(0);
     }
 
     @Override
-    protected Day7Directory bestPartTwoDirectory(Double missingSpace) {
+    protected Day7Directory getBestPartTwoDirectory(Double missingSpace) {
         return null;
     }
 }
