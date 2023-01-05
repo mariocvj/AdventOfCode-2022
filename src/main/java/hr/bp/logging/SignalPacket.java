@@ -1,4 +1,4 @@
-package hr.bp.aoc.day13;
+package hr.bp.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +9,9 @@ import java.util.List;
 public class SignalPacket implements Comparable<SignalPacket> {
 
     private final List<Object> content;
-    private static final Logger logger = LoggerFactory.getLogger(hr.bp.logging.SignalPacket.class);
 
 
+    private static final Logger logger = LoggerFactory.getLogger(SignalPacket.class);
 
     protected SignalPacket(List<Object> content) {
         this.content = content;
@@ -46,6 +46,7 @@ public class SignalPacket implements Comparable<SignalPacket> {
     public int compareTo(SignalPacket other) {
         Object left;
         Object right;
+        int a,b;
         int result = 0;
         int i = 0;
 
@@ -56,12 +57,6 @@ public class SignalPacket implements Comparable<SignalPacket> {
 
             if ((left instanceof Integer) && (right instanceof Integer)) {
 
-
-                if (logger.isDebugEnabled()){
-                    logger.info("Comparing integers "+left+" "+right);
-                }
-
-                if (logger.isTraceEnabled())
 
                 result = Integer.compare((Integer) left, ((Integer) right));
 

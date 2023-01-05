@@ -1,8 +1,13 @@
-package hr.bp.aoc.day13;
+package hr.bp.logging;
 
 import hr.bp.aoc.BaseDay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class DistressSignal extends BaseDay {
     public DistressSignal(int day) {
@@ -10,6 +15,7 @@ public class DistressSignal extends BaseDay {
     }
 
     private String rowParser;
+
 
 
     @Override
