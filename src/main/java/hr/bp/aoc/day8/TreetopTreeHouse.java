@@ -16,9 +16,9 @@ public class TreetopTreeHouse extends BaseDay {
 
     private class ForestTree {
         Boolean isVisible;
-        Integer height;
+        int height;
 
-        public ForestTree(Integer height) {
+        public ForestTree(int height) {
             this.isVisible = false;
             this.height = height;
         }
@@ -26,7 +26,7 @@ public class TreetopTreeHouse extends BaseDay {
 
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
-        Integer highestTreeInLineOfSight;
+        int highestTreeInLineOfSight;
 
         initialiseForestData(puzzleInputRowsList);
 
@@ -84,7 +84,7 @@ public class TreetopTreeHouse extends BaseDay {
         return String.valueOf(highestScenicScore);
     }
 
-    private Integer calculateTreeScenicScore(Integer treeX, Integer treeY) {
+    private Integer calculateTreeScenicScore(int treeX, int treeY) {
         ForestTree treeToCalculate = forestMap.get(treeY).get(treeX);
         int lineOfSightLength = 0;
         int scenicScore = 1;
@@ -143,8 +143,8 @@ public class TreetopTreeHouse extends BaseDay {
         return scenicScore;
     }
 
-    private Integer getVisibleTreeAmmount() {
-        Integer visibleTrees = 0;
+    private int getVisibleTreeAmmount() {
+        int visibleTrees = 0;
 
         for (List<ForestTree> forestRow : forestMap) {
             for (int x = 0; x < forestMap.get(0).size(); x++) {
@@ -157,7 +157,7 @@ public class TreetopTreeHouse extends BaseDay {
     }
 
 
-    private ForestTree getForestTree(Integer treeX, Integer treeY) {
+    private ForestTree getForestTree(int treeX, int treeY) {
         try {
             return forestMap.get(treeY).get(treeX);
         } catch (IndexOutOfBoundsException e) {
@@ -166,7 +166,7 @@ public class TreetopTreeHouse extends BaseDay {
         }
     }
 
-    private Integer checkTreeVisibility(Integer treeX, Integer treeY, Integer heightOfTreesInBetween) {
+    private int checkTreeVisibility(int treeX, int treeY, int heightOfTreesInBetween) {
         ForestTree tree = forestMap.get(treeY).get(treeX);
         //System.out.println(treeX + "  " + treeY);
 

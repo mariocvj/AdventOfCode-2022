@@ -13,7 +13,7 @@ public class SupplyStacks extends BaseDay {
     }
 
     private List<Stack<Character>> cratePositions;
-    private Integer puzzleInputHeight = 0;
+    private int puzzleInputHeight = 0;
 
 
     @Override
@@ -23,7 +23,7 @@ public class SupplyStacks extends BaseDay {
         readCratePositions(puzzleInputRowsList);
 
         for (int i = puzzleInputHeight + 2; i < puzzleInputRowsList.size(); i++) {
-            moveCommand = new ArrayList<String>(Arrays.asList(puzzleInputRowsList.get(i).split(" ")));
+            moveCommand = new ArrayList<>(Arrays.asList(puzzleInputRowsList.get(i).split(" ")));
             System.out.println(moveCommand);
 
             moveStackOfCrates(
@@ -38,12 +38,11 @@ public class SupplyStacks extends BaseDay {
     @Override
     protected String partTwo(List<String> puzzleInputRowsList) {
         List<String> moveCommand;
-        Integer ammount, source, destination;
 
         readCratePositions(puzzleInputRowsList);
 
         for (int i = puzzleInputHeight + 2; i < puzzleInputRowsList.size(); i++) {
-            moveCommand = new ArrayList<String>(Arrays.asList(puzzleInputRowsList.get(i).split(" ")));
+            moveCommand = new ArrayList<>(Arrays.asList(puzzleInputRowsList.get(i).split(" ")));
             System.out.println(moveCommand);
 
             moveStackOfCratesAtOnce(
@@ -65,29 +64,29 @@ public class SupplyStacks extends BaseDay {
     }
 
 
-    private void moveStackOfCrates(Integer crateAmmount, Integer sourceStack, Integer destinationStack) {
+    private void moveStackOfCrates(int crateAmmount, int sourceStack, int destinationStack) {
         for (int i = 0; i < crateAmmount; i++) {
             cratePositions.get(destinationStack - 1).push(cratePositions.get(sourceStack - 1).pop());
         }
     }
 
 
-    private void moveStackOfCratesAtOnce(Integer crateAmmount, Integer sourceStack, Integer destinationStack) {
-        LinkedList<Character> movedCrates = new LinkedList<Character>();
+    private void moveStackOfCratesAtOnce(int crateAmmount, int sourceStack, int destinationStack) {
+        LinkedList<Character> movedCrates = new LinkedList<>();
         for (int i = 0; i < crateAmmount; i++) {
             movedCrates.addFirst(cratePositions.get(sourceStack - 1).pop());
         }
-        for (Character crate : movedCrates) {
+        for (char crate : movedCrates) {
             cratePositions.get(destinationStack - 1).push(crate);
         }
     }
 
 
     private void readCratePositions(List<String> puzzleInputRowsList) {
-        Integer puzzleInputWidth;
+        int puzzleInputWidth;
         int stackNumber = 1;
         cratePositions = new ArrayList<>();
-        Character crate;
+        char crate;
 
         //read highest stack height
         for (String row : puzzleInputRowsList) {
@@ -108,7 +107,7 @@ public class SupplyStacks extends BaseDay {
 
         //load crate positions
         for (int i = puzzleInputHeight - 1; i >= 0; i--) {
-            Integer z = 0;
+            int z = 0;
             for (int y = 1; y < puzzleInputWidth; y = y + 4) {
 
                 crate = puzzleInputRowsList.get(i).charAt(y);
@@ -118,7 +117,6 @@ public class SupplyStacks extends BaseDay {
                 z++;
             }
         }
-        return;
     }
 
 

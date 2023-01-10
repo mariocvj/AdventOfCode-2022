@@ -9,6 +9,7 @@ import hr.bp.aoc.day13.DistressSignal;
 import hr.bp.aoc.day14.RegolithReservoir;
 import hr.bp.aoc.day15.BeaconExclusionZone;
 import hr.bp.aoc.day16.ProboscideaVolcanium;
+import hr.bp.aoc.day17.PyroclasticFlow;
 import hr.bp.aoc.day2.RockPaperScissors;
 import hr.bp.aoc.day3.RucksackReorganization;
 import hr.bp.aoc.day4.CampCleanup;
@@ -34,7 +35,6 @@ public class Main {
         }
 
         System.out.println(output);
-        return;
     }
 
     private static BaseDay getDayInstance(int day){
@@ -55,7 +55,7 @@ public class Main {
             case 14: return new RegolithReservoir(day);
             case 15: return new BeaconExclusionZone(day);
             case 16: return new ProboscideaVolcanium(day);
-            case 17: return new TuningTrouble(day);
+            case 17: return new PyroclasticFlow(day);
             case 18: return new TuningTrouble(day);
             case 19: return new TuningTrouble(day);
             case 20: return new TuningTrouble(day);

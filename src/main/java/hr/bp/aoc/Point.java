@@ -11,7 +11,7 @@ public class Point {
     public Point() {
     }
 
-    public Point(Integer x, Integer y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
