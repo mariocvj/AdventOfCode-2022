@@ -15,12 +15,13 @@ public class ProboscideaVolcanium extends BaseDay {
     @Override
     protected String partOne(List<String> puzzleInputRowsList) {
 
-        Set<PressureValve> opened = new HashSet<>();
-        List<PressureValve> valveList = initialiseValves(puzzleInputRowsList);
-
-        for (FlowableValve node:nodeList){
+        for (FlowableValve node : nodeList) {
             node.calculateShortestPaths();
         }
+
+        PrioritisedPathSearch algorithm = new PrioritisedPathSearch();
+        algorithm.runSearchAlgorithm();
+
         System.out.println("dfs");
         return String.valueOf(null);
     }
@@ -66,7 +67,6 @@ public class ProboscideaVolcanium extends BaseDay {
 
     private List<PressureValve> initialiseValves(List<String> puzzleInputRowsList) {
         List<PressureValve> valveList;
-        List<PressureValve> tunnelList;
         valveList = new ArrayList<>();
 
         for (String inputRow : puzzleInputRowsList) {
@@ -75,8 +75,8 @@ public class ProboscideaVolcanium extends BaseDay {
 
         setTunnels(puzzleInputRowsList, valveList);
 
-        valveList.get(0).setAllValves(new HashSet<>(valveList));
-        valveList.get(0).setAllNodes(new HashSet<>(nodeList));
+        VariablesSingleton.allValves = new HashSet<>(valveList);
+        VariablesSingleton.allNodes = new ArrayList<>(nodeList);
 
         return valveList;
     }
@@ -95,6 +95,18 @@ public class ProboscideaVolcanium extends BaseDay {
         }
     }
 
+    private FlowableValve asStartingValve(String row) {
+
+        FlowableValve start;
+        String[] nameAndFlow;
+
+        nameAndFlow = row.substring(6, 25).replaceAll("[a-z\s;]", "").split("=");
+
+        start = new FlowableValve(nameAndFlow[0], Integer.parseInt(nameAndFlow[1]));
+        nodeList.add(start);
+        return start;
+    }
+
     private PressureValve asValve(String row) {
 
         FlowableValve node;
@@ -102,12 +114,12 @@ public class ProboscideaVolcanium extends BaseDay {
 
         nameAndFlow = row.substring(6, 25).replaceAll("[a-z\s;]", "").split("=");
 
-        if (nameAndFlow[1].equals("0")) {
-            return new PressureValve(nameAndFlow[0]);
-        } else {
+        if (!(nameAndFlow[1].equals("0")) || (nameAndFlow[0].equals(VariablesSingleton.START_LOCATION))) {
             node = new FlowableValve(nameAndFlow[0], Integer.parseInt(nameAndFlow[1]));
             nodeList.add(node);
             return node;
+        } else {
+            return new PressureValve(nameAndFlow[0]);
         }
     }
 

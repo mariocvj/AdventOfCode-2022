@@ -3,9 +3,7 @@ package hr.bp.aoc.day16;
 import java.util.*;
 
 public class FlowableValve extends PressureValve {
-
-    private static final int ERUPTION_TIME = 30;
-    private List<ShortestPath> shortestPaths = new ArrayList<>();
+    private final List<ShortestPath> shortestPaths = new ArrayList<>();
     int flow;
 
     public FlowableValve(String name, int flow) {
@@ -13,7 +11,7 @@ public class FlowableValve extends PressureValve {
         this.flow = flow;
     }
 
-    private class ShortestPath implements Comparable<ShortestPath> {
+    class ShortestPath implements Comparable<ShortestPath> {
         FlowableValve destination;
         int distance;
         public ShortestPath(FlowableValve destination, int distance) {
@@ -28,6 +26,18 @@ public class FlowableValve extends PressureValve {
         }
     }
 
+    public ShortestPath getDirection(int priority, Set<FlowableValve> unOpened){
+
+        for (ShortestPath direction:shortestPaths){  //shortestPaths is sorted by custom priority, defined above
+            if (unOpened.contains(direction.destination)){
+                priority--;
+                if (priority<0){
+                    return direction;
+                }
+            }
+        }
+        return null;
+    }
 
     public void calculateShortestPaths() {
         List<PressureValve> lastStep = new ArrayList<>();
@@ -38,8 +48,8 @@ public class FlowableValve extends PressureValve {
         lastStep.add(this);
         explored.add(this);
 
+        //dijkstra algorithm
         do {
-            //implement dijkstra algorithm here
             distance++;
             for (PressureValve valve : lastStep) {
                 for (PressureValve tunnel : valve.tunnelList) {
@@ -56,8 +66,10 @@ public class FlowableValve extends PressureValve {
             lastStep = nextStep;
             nextStep = new ArrayList<>();
 
-        } while ((explored.size() < allValves.size()) && (this.shortestPaths.size() < (allNodes.size() - 1)) && (distance < ERUPTION_TIME));
+        } while ((explored.size() < VariablesSingleton.allValves.size()) && (this.shortestPaths.size() < (VariablesSingleton.allNodes.size() - 1)) && (distance < VariablesSingleton.ERUPTION_TIME));
 
         Collections.sort(shortestPaths);
     }
+
+
 }
