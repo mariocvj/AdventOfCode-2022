@@ -59,7 +59,6 @@ public class RopeBridge extends BaseDay {
 
             }
             visitedPositions.add(new Point(partTwoRopePosition.get(9)));
-            System.out.println(partTwoRopePosition.get(9));
         }
     }
 

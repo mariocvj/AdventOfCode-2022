@@ -17,7 +17,7 @@ public class TuningTrouble extends BaseDay {
     private Integer length;
 
     protected String partOne(List<String> puzzleInputRowsList) {
-        length = 2;
+        length = 4;
         this.inputString = puzzleInputRowsList.get(0);
         return findSolution();
     }
@@ -32,21 +32,23 @@ public class TuningTrouble extends BaseDay {
     private String findSolution() {
 
         for (int i = length; i < 99999; i++) {
-            if (!(thereAreAnyEquals(i))) {
+            if (!(isThereAnyEquals(i))) {
                 return String.valueOf(i);
             }
         }
         return ERROR_INVALID_PUZZLE_INPUT_NO_SOLUTION_FOUND;
     }
 
-    private boolean thereAreAnyEquals(int firstIndex) {
+    private boolean isThereAnyEquals(int firstIndex) {
         for (int i = firstIndex - length; i < firstIndex - 1; i++) {
-            if (firstIsEqualToAnyOther(i, firstIndex)) return true;
+            if (isFirstEqualToAnyOther(i, firstIndex)){
+                return true;
+            }
         }
         return false;
     }
 
-    private boolean firstIsEqualToAnyOther(int firstIndex, int lastIndex) {
+    private boolean isFirstEqualToAnyOther(int firstIndex, int lastIndex) {
         char firstChar = inputString.charAt(firstIndex);
         char currentChar;
 

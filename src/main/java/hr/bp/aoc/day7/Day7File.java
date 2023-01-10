@@ -6,7 +6,6 @@ public class Day7File extends Day7BaseObject {
     public Day7File(String name, Day7Directory location, Integer size) {
         super(name, location);
         this.size = Double.valueOf(size);
-        System.out.println(size);
     }
 
     @Override

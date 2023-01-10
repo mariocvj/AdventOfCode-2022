@@ -9,7 +9,7 @@ import java.util.List;
 public class SignalPacket implements Comparable<SignalPacket> {
 
     private final List<Object> content;
-    private static final Logger logger = LoggerFactory.getLogger(hr.bp.logging.SignalPacket.class);
+    private static final Logger logger = LoggerFactory.getLogger(hr.bp.aoc.day13.SignalPacket.class);
 
 
 
@@ -56,12 +56,9 @@ public class SignalPacket implements Comparable<SignalPacket> {
 
             if ((left instanceof Integer) && (right instanceof Integer)) {
 
-
                 if (logger.isDebugEnabled()){
-                    logger.info("Comparing integers "+left+" "+right);
+                    logger.debug("Comparing integers "+left+" "+right);
                 }
-
-                if (logger.isTraceEnabled())
 
                 result = Integer.compare((Integer) left, ((Integer) right));
 

@@ -18,7 +18,7 @@ public class NoSpaceLeftOnDevice extends BaseDay {
 
         Day7Root rootInstance = directoryTreeBuilder(puzzleInputRowsList);
 
-        return String.valueOf(rootInstance.getSumOfPartOneDirectories());
+        return String.valueOf(rootInstance.getSumOfPartOneDirectories().intValue());
 
     }
 

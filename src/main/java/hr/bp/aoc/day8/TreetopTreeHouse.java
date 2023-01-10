@@ -67,8 +67,8 @@ public class TreetopTreeHouse extends BaseDay {
 
     @Override
     protected String partTwo(List<String> puzzleInputRowsList) {
-        Integer highestScenicScore = 0;
-        Integer currentScenicScore;
+        int highestScenicScore = 0;
+        int currentScenicScore;
 
         initialiseForestData(puzzleInputRowsList);
 
@@ -76,7 +76,6 @@ public class TreetopTreeHouse extends BaseDay {
             for (int x = 0; x < forestMap.get(0).size(); x++) {
 
                 currentScenicScore = calculateTreeScenicScore(x, y);
-                System.out.println(currentScenicScore);
                 if (highestScenicScore < currentScenicScore) {
                     highestScenicScore = currentScenicScore;
                 }
@@ -147,9 +146,9 @@ public class TreetopTreeHouse extends BaseDay {
     private Integer getVisibleTreeAmmount() {
         Integer visibleTrees = 0;
 
-        for (int y = 0; y < forestMap.size(); y++) {
+        for (List<ForestTree> forestRow : forestMap) {
             for (int x = 0; x < forestMap.get(0).size(); x++) {
-                if (forestMap.get(y).get(x).isVisible) {
+                if (forestRow.get(x).isVisible) {
                     visibleTrees++;
                 }
             }
@@ -169,7 +168,7 @@ public class TreetopTreeHouse extends BaseDay {
 
     private Integer checkTreeVisibility(Integer treeX, Integer treeY, Integer heightOfTreesInBetween) {
         ForestTree tree = forestMap.get(treeY).get(treeX);
-        System.out.println(treeX + "  " + treeY);
+        //System.out.println(treeX + "  " + treeY);
 
         if (tree.height > heightOfTreesInBetween) {
             tree.isVisible = true;
