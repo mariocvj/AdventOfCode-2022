@@ -8,6 +8,7 @@ import java.util.List;
 public class PyroclasticFlow extends BaseDay {
 
     List<Character>[] caveChamber;
+    JetFlowProvider flow;
 
     public PyroclasticFlow(int day) {
         super(day);
@@ -19,7 +20,7 @@ public class PyroclasticFlow extends BaseDay {
         int spawnHeight = 0;
         int rockCounter = 0;
         FallingRock rock;
-        String directions = puzzleInputRowsList.get(0);
+        flow = new JetFlowProvider(puzzleInputRowsList.get(0));
         caveChamber = initialiseCaveChamber();
 
         do {
@@ -28,7 +29,7 @@ public class PyroclasticFlow extends BaseDay {
             }
 
 
-            rock = getNextRockAfterItFell(directions, spawnHeight);
+            rock = getNextRockAfterItFell(spawnHeight);
             rock.addRockToChamber(caveChamber);
 
 
@@ -57,18 +58,17 @@ public class PyroclasticFlow extends BaseDay {
     }
 
 
-    private FallingRock getNextRockAfterItFell(String directions, int currentFloor) {
+    private FallingRock getNextRockAfterItFell(int currentFloor) {
         FallingRock rock = new FallingRock(currentFloor);
 
-        for (int i = 0; i < directions.length(); i++) {
-            if (!(rock.hasJetFlowGap(caveChamber, directions.charAt(i)))) {
+        do{
+            if (!(rock.hasJetFlowGap(caveChamber, flow.getJetFlow()))) {
                 return rock;
             }
             if (!(rock.hasGapBellow(caveChamber))) {
                 return rock;
             }
-        }
-        return null;
+        }while (true);
     }
 
     private List<Character>[] initialiseCaveChamber() {
@@ -76,6 +76,7 @@ public class PyroclasticFlow extends BaseDay {
 
         for (int x = 0; x < 7; x++) {
             caveChamber[x] = new ArrayList<>();
+            caveChamber[x].add('#');
         }
         return caveChamber;
     }
@@ -95,6 +96,4 @@ public class PyroclasticFlow extends BaseDay {
             }
         }
     }
-
-
 }

@@ -13,7 +13,7 @@ public class FallingRock {
     private int peak = 0;
 
     public FallingRock(int floor) {
-        this.location = new Point(2, floor + 3);
+        this.location = new Point(2, floor + 4);
 
         initialisePartOffsets();
 
@@ -69,6 +69,7 @@ public class FallingRock {
         for (Point part : partOffsets) {
             chamber[location.x + part.x].set(location.y + part.y, '#');
         }
+        System.out.println(location.x +" "+ location.y);
     }
 
     public int getPeak() {
@@ -90,9 +91,9 @@ public class FallingRock {
             }
         }
         catch(ArrayIndexOutOfBoundsException e){
-            return false;// this is intended behaviour when rock hits cavern wall
+            return true;// this is intended behaviour when rock hits cavern wall
         }
-        return false;
+        return false;//needed only for syntax
     }
 
     private boolean hasGapLeft (List<Character>[] chamber) throws ArrayIndexOutOfBoundsException{
